@@ -4,6 +4,5 @@
 
 
 int main (int args, char* argv[]){
-    printf("Hello World xv6\n");
-    exit(0,"exit hello world");
+    exit(0,"Goodbye World xv6");
 }

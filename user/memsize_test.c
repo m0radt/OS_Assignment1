@@ -10,10 +10,10 @@ int main (int args, char* argv[]){
     void *memory = malloc(size);
     if(memory == 0){
         fprintf(2, "Memory allocation failed\n"); // stderr
-        exit(1);
+        exit(1, 0);
     }
     printf("Memory used after allocation: %d\n", memsize());
     free(memory);
     printf("Memory used after the release: %d\n", memsize());
-    exit(0);
+    exit(0, 0);
 }
