@@ -5,7 +5,7 @@
 int
 main(int argc, char *argv[])
 {
-  int mask = 3;
+  int mask = 5;
   
   set_affinity_mask(mask);
 

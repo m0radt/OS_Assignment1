@@ -107,4 +107,5 @@ struct proc {
 
   char exit_msg[32];           // exit message
   int affinity_mask;
+  int effective_affinity_mask;
 };
