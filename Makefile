@@ -127,6 +127,7 @@ UPROGS=\
 	$U/_ln\
 	$U/_ls\
 	$U/_memsize_test\
+	$U/_affinity_test\
 	$U/_mkdir\
 	$U/_rm\
 	$U/_sh\

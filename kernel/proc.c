@@ -55,6 +55,7 @@ procinit(void)
       initlock(&p->lock, "proc");
       p->state = UNUSED;
       p->kstack = KSTACK((int) (p - proc));
+      p->affinity_mask = 0;
   }
 }
 
@@ -124,6 +125,7 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
+  p->affinity_mask = 0;
 
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
@@ -168,6 +170,7 @@ freeproc(struct proc *p)
   p->chan = 0;
   p->killed = 0;
   p->xstate = 0;
+  p->affinity_mask = 0;
   p->state = UNUSED;
 }
 
@@ -295,6 +298,8 @@ fork(void)
     return -1;
   }
   np->sz = p->sz;
+  //we assume that the child process should be restricted to the same CPUs as the parent
+  np->affinity_mask = p->affinity_mask;
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
@@ -459,7 +464,7 @@ scheduler(void)
 
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
-      if(p->state == RUNNABLE) {
+      if(p->state == RUNNABLE && (p->affinity_mask == 0 || ((p->affinity_mask & (1 << cpuid())) != 0) )) {
         // Switch to chosen process.  It is the process's job
         // to release its lock and then reacquire it
         // before jumping back to us.

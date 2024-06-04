@@ -106,4 +106,5 @@ struct proc {
   char name[16];               // Process name (debugging)
 
   char exit_msg[32];           // exit message
+  int affinity_mask;
 };
