@@ -125,6 +125,7 @@ exec(char *path, char **argv)
   p->pagetable = pagetable;
   p->sz = sz;
   p->affinity_mask = 0;
+  p->effective_affinity_mask = 0;
   p->trapframe->epc = elf.entry;  // initial program counter = main
   p->trapframe->sp = sp; // initial stack pointer
   proc_freepagetable(oldpagetable, oldsz);

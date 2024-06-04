@@ -111,11 +111,12 @@ sys_memsize(void)
 uint64
 sys_set_affinity_mask(void)
 {
-  int affinity_mask;
+  int mask;
 
-  argint(0, &affinity_mask);
-  int old_affinity_mask = myproc()->affinity_mask;
-  myproc()->affinity_mask = affinity_mask;
+  argint(0, &mask);
+  struct proc *p = myproc();
+  int old_affinity_mask = p->affinity_mask;
+  p->affinity_mask = mask;
+  p->effective_affinity_mask = mask;
   return old_affinity_mask;
-
 }
